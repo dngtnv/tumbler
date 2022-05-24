@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Tumbler</title>
+    <script type="module" src="/main.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="logo">Tumbler</div>
+      <div class="search-wrapper">
+        <input id="search-input" name="username" type="text" placeholder="Tumblr username" />
+      </div>
+    </header>
+    <main class="container">
+      <div class="user-info">
+        <div class="avatar-wrapper">
+          <img
+            id="avatar"
+            src="https://64.media.tumblr.com/ac46b069c7bb24e2ee5bf368a32b84fe/5c65a2189e2d73b7-9d/s540x810/384c42854b3fca915f79ffcb8dc711665b7c3519.jpg"
+            alt="moon face"
+          />
+        </div>
+        <div class="blog-text">
+          <h1 id="name">@username</h1>
+          <p id="description">@description</p>
+        </div>
+      </div>
+      <div class="image-list"></div>
+      <div class="loader">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </main>
+  </body>
+</html>
