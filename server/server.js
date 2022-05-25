@@ -22,11 +22,16 @@ app.use(cors());
 
 const getUserInfo = blogName => {
   const info = [];
-  const response = client.blogInfo(blogName).then(data => {
-    const blog = { avatar: data.blog.avatar[0].url, name: data.blog.name, description: data.blog.description };
-    info.push({ avatar: blog.avatar, username: blog.name, description: blog.description });
-    return info;
-  });
+  const response = client
+    .blogInfo(blogName)
+    .then(data => {
+      const blog = { avatar: data.blog.avatar[0].url, name: data.blog.name, description: data.blog.description };
+      info.push({ avatar: blog.avatar, username: blog.name, description: blog.description });
+      return info;
+    })
+    .catch(err => {
+      console.error(err);
+    });
   return response;
 };
 const getImageUrls = (blogName, postNumber, offsetNumber) => {
@@ -36,13 +41,13 @@ const getImageUrls = (blogName, postNumber, offsetNumber) => {
     .then(data => {
       data.posts.filter(post => {
         if (post['type'] === 'photo') {
-          imageUrls.push({ id: post.id, url: post.photos[0].original_size.url, alt: post.summary });
+          imageUrls.push({ id: post.id, og_size: post.photos[0].original_size.url, alt: post.summary });
         } else {
           let str = post.trail[0].content;
           let start = str.indexOf('src');
           let end = str.indexOf('alt');
           let url = str.slice(start + 5, end - 2);
-          imageUrls.push({ id: post.id, url: url, alt: post.summary });
+          imageUrls.push({ id: post.id, og_size: url, alt: post.summary });
         }
       });
       return imageUrls;

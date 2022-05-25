@@ -1,4 +1,18 @@
+const lightboxContainer = document.querySelector('.lightbox-container');
+const lightboxImage = document.querySelector('.lightbox-img');
+const lightboxBtns = document.querySelectorAll('.lightbox-btn');
+const lightboxBtnLeft = document.querySelector('#left');
+const lightboxBtnRight = document.querySelector('#right');
 let scrollLock = false;
+
+const showLightBox = () => {
+  lightboxContainer.classList.add('active');
+};
+
+lightboxContainer.addEventListener('click', () => {
+  lightboxContainer.classList.remove('active');
+});
+
 const getProfile = async blogName => {
   const response = await fetch(`http://localhost:8888/user/${blogName}`);
   const data = await response.json();
@@ -31,17 +45,75 @@ const getImages = async (blogName, offset) => {
 const loadImages = imagesArr => {
   let html = '';
   imagesArr.images.forEach(image => {
-    html += `<div class="image-item">`;
-    html += `<img id="${image.id}" src="${image.url}" alt="${image.alt}">`;
+    html += `<div class="image-item lightbox-enabled">`;
+    html += `<img id="${image.id}" src="${image.og_size}" data-imagesrc="${image.og_size}" alt="${image.alt}">`;
     html += `</div>`;
   });
   doLoading();
   setTimeout(() => {
     document.querySelector('.image-list').insertAdjacentHTML('beforeend', html);
+    /**************lightbox***************/
+    let lightboxEnabled = document.querySelectorAll('.lightbox-enabled');
+    let lightboxArray = [...lightboxEnabled];
+    let lastImage = lightboxArray.length - 1;
+    let activeImg;
+
+    const setActiveImage = image => {
+      if (!image) {
+        return;
+      } else {
+        lightboxImage.src = image.firstChild.dataset.imagesrc;
+      }
+      activeImg = lightboxArray.indexOf(image);
+    };
+    lightboxBtns.forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        slidesHandler(e.currentTarget.id);
+      });
+    });
+    const slidesHandler = moveItem => {
+      moveItem.includes('left') ? slideLeft() : slideRight();
+    };
+    const slideLeft = () => {
+      // activeImg === 0 ? setActiveImage(lightboxArray[lastImage]) : setActiveImage(lightboxArray[activeImg].previousElementSibling);
+      if (activeImg === 0) {
+        setActiveImage(lightboxArray[lastImage]);
+      } else if (!lightboxArray[activeImg]) {
+        return;
+      } else {
+        setActiveImage(lightboxArray[activeImg].previousElementSibling);
+      }
+    };
+    const slideRight = () => {
+      // activeImg === lastImage ? setActiveImage(lightboxArray[0]) : setActiveImage(lightboxArray[activeImg].nextElementSibling);
+      if (activeImg === lastImage) {
+        setActiveImage(lightboxArray[0]);
+      } else if (!lightboxArray[activeImg]) {
+        return;
+      } else {
+        setActiveImage(lightboxArray[activeImg].nextElementSibling);
+      }
+    };
+    lightboxEnabled.forEach(img => {
+      img.addEventListener('click', e => {
+        showLightBox();
+        setActiveImage(img);
+      });
+    });
+    window.addEventListener('keydown', e => {
+      if (!lightboxContainer.classList.contains('active')) return;
+      if (e.key.includes('Left') || e.key.includes('Right')) {
+        e.preventDefault();
+        slidesHandler(e.key.toLowerCase());
+      }
+    });
+    /*****************************/
     removeLoading();
     scrollLock = false;
   }, 1000);
 };
+
 const doLoading = () => {
   const loader = document.querySelector('.loader');
   loader.style.visibility = 'visible';
