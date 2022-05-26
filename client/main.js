@@ -101,13 +101,6 @@ const loadImages = imagesArr => {
         setActiveImage(img);
       });
     });
-    window.addEventListener('keydown', e => {
-      if (!lightboxContainer.classList.contains('active')) return;
-      if (e.key.includes('Left') || e.key.includes('Right')) {
-        e.preventDefault();
-        slidesHandler(e.key.toLowerCase());
-      }
-    });
     /*****************************/
     removeLoading();
     scrollLock = false;
@@ -120,7 +113,7 @@ const doLoading = () => {
 };
 const removeLoading = () => {
   const loader = document.querySelector('.loader');
-  loader.style.visibility = 'hiddene';
+  loader.style.visibility = 'hidden';
 };
 
 const main = () => {
@@ -146,6 +139,13 @@ const main = () => {
           getImages(input, postElement.length);
         }
       };
+      window.addEventListener('keydown', e => {
+        if (!lightboxContainer.classList.contains('active')) return;
+        if (e.key.includes('Left') || e.key.includes('Right')) {
+          e.preventDefault();
+          slidesHandler(e.key.toLowerCase());
+        }
+      });
     }
   });
 };
