@@ -198,7 +198,7 @@ header .logo {
   margin: 0 auto;
   width: 80px;
   height: 80px;
-  visibility: hidden;
+  display: none;
 }
 .loader div {
   display: inline-block;

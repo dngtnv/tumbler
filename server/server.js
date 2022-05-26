@@ -57,6 +57,14 @@ const getImageUrls = (blogName, postNumber, offsetNumber) => {
     });
   return response;
 };
+const getTotalPosts = blogName => {
+  const response = client.blogPosts(blogName, { type: 'photo' }).then(data => {
+    const total = data.total_posts;
+    return total;
+  });
+  return response;
+};
+
 app.get('/:blog/photos/:number/offset=:offset', async (req, res) => {
   const data = await getImageUrls(req.params.blog, +req.params.number, +req.params.offset);
   res.cookie('user', 'guest', { sameSite: 'none', secure: true });
@@ -65,6 +73,10 @@ app.get('/:blog/photos/:number/offset=:offset', async (req, res) => {
 app.get('/user/:username', async (req, res) => {
   const data = await getUserInfo(req.params.username);
   res.status(200).json({ info: data });
+});
+app.get('/user/:username/total_posts', async (req, res) => {
+  const data = await getTotalPosts(req.params.username);
+  res.status(200).json({ total: data });
 });
 
 app.listen(port, () => {
