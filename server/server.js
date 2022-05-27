@@ -78,6 +78,10 @@ app.get('/user/:username/total_posts', async (req, res) => {
   res.status(200).json({ total: data });
 });
 
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
+});
+
 app.listen(port, () => {
   console.log(`The server is listening at http://localhost:${port}`);
 });

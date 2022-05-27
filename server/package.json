@@ -9,7 +9,7 @@
     "start": "node server.js"
   },
   "engines": {
-    "node": "v16.15.0"
+    "node": "16.15.0"
   },
   "keywords": [],
   "author": "",
