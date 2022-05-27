@@ -30,7 +30,7 @@ const getUserInfo = blogName => {
       return info;
     })
     .catch(err => {
-      console.error(err);
+      console.error(err.message);
     });
   return response;
 };
@@ -53,28 +53,42 @@ const getImageUrls = (blogName, postNumber, offsetNumber) => {
       return imageUrls;
     })
     .catch(err => {
-      console.error(err);
+      console.error(err.message);
     });
   return response;
 };
 const getTotalPosts = blogName => {
-  const response = client.blogPosts(blogName, { type: 'photo' }).then(data => {
-    const total = data.total_posts;
-    return total;
-  });
+  const response = client
+    .blogPosts(blogName, { type: 'photo' })
+    .then(data => {
+      const total = data.total_posts;
+      return total;
+    })
+    .catch(err => {
+      console.error(err.message);
+    });
   return response;
 };
 
-app.get('/:blog/photos/:number/offset=:offset', async (req, res) => {
-  const data = await getImageUrls(req.params.blog, +req.params.number, +req.params.offset);
-  res.status(200).json({ images: data });
-});
 app.get('/user/:username', async (req, res) => {
   const data = await getUserInfo(req.params.username);
+  if (!data) {
+    return res.status(404).json({ message: 'Not Found' });
+  }
   res.status(200).json({ info: data });
+});
+app.get('/:blog/photos/:number/offset=:offset', async (req, res) => {
+  const data = await getImageUrls(req.params.blog, +req.params.number, +req.params.offset);
+  if (!data) {
+    return res.status(404).json({ message: 'Not Found' });
+  }
+  res.status(200).json({ images: data });
 });
 app.get('/user/:username/total_posts', async (req, res) => {
   const data = await getTotalPosts(req.params.username);
+  if (!data) {
+    return res.status(404).json({ message: 'Not Found' });
+  }
   res.status(200).json({ total: data });
 });
 

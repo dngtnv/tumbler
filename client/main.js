@@ -16,24 +16,32 @@ lightboxContainer.addEventListener('click', () => {
 });
 
 const getTotalPosts = async blogName => {
-  const response = await fetch(`/user/${blogName}/total_posts`);
+  const response = await fetch(`http://localhost:8888/user/${blogName}/total_posts`);
   const data = await response.json();
   return data.total;
 };
 
 const getProfile = async blogName => {
-  const response = await fetch(`/user/${blogName}`);
-  const data = await response.json();
-  loadProfile(data);
+  let profile;
+  try {
+    const response = await fetch(`http://localhost:8888/user/${blogName}`);
+    const data = await response.json();
+    profile = { avatar: data.info[0].avatar, username: data.info[0].username, description: data.info[0].description };
+    loadProfile(profile);
+    getImages(blogName);
+  } catch (err) {
+    profile = { avatar: '', username: 'Not Found', description: '' };
+    loadProfile(profile);
+  }
 };
 
 const loadProfile = profile => {
   const avatarElement = document.querySelector('#avatar');
   const nameElement = document.querySelector('#name');
   const desElement = document.querySelector('#description');
-  avatarElement.src = profile.info[0].avatar;
-  nameElement.innerHTML = profile.info[0].username;
-  desElement.innerHTML = profile.info[0].description;
+  avatarElement.src = profile.avatar;
+  nameElement.innerHTML = profile.username;
+  desElement.innerHTML = profile.description;
 };
 
 const getImages = async (blogName, offset) => {
@@ -42,7 +50,7 @@ const getImages = async (blogName, offset) => {
     if (!offset) {
       offset = 0;
     }
-    const response = await fetch(`/${blogName}/photos/20/offset=${offset}`);
+    const response = await fetch(`http://localhost:8888/${blogName}/photos/20/offset=${offset}`);
     const data = await response.json();
     loadImages(data);
   } catch (err) {
@@ -123,7 +131,7 @@ const displayLoading = () => {
   loader.style.display = 'block';
   setTimeout(() => {
     loader.style.display = 'none';
-  }, 1500);
+  }, 1800);
 };
 
 const main = () => {
@@ -141,16 +149,18 @@ const main = () => {
         element.removeChild(element.firstChild);
       }
       getProfile(input);
-      getImages(input);
+      // getImages(input);
       getTotalPosts(input).then(data => (totalPosts = data));
       window.onscroll = function () {
-        if (scrollLock) return;
+        if (scrollLock || this.oldScroll > this.scrollY) return;
+        this.oldScroll = this.scrollY;
         if (this.innerHeight + this.pageYOffset >= (document.body.scrollHeight / 4) * 3) {
           scrollLock = true;
           let postElement = document.querySelectorAll('.image-item');
           if (postElement.length === totalPosts) {
             return;
           } else {
+            console.log('load lan 2');
             getImages(input, postElement.length);
           }
         }

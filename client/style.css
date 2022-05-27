@@ -14,7 +14,6 @@ input::placeholder {
 }
 
 body {
-  place-items: center;
   background-color: hsl(212, 100%, 10%);
   font-family: 'Poppins', sans-serif;
 }
@@ -23,8 +22,6 @@ header {
   justify-content: space-between;
   align-items: center;
   height: 54px;
-  margin: auto;
-  max-width: 1716px;
   padding: 0 20px;
   width: 100%;
   border-bottom: 1px solid rgb(255, 255, 255, 0.13);
