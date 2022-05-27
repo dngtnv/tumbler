@@ -16,13 +16,13 @@ lightboxContainer.addEventListener('click', () => {
 });
 
 const getTotalPosts = async blogName => {
-  const response = await fetch(`http://localhost:8888/user/${blogName}/total_posts`);
+  const response = await fetch(`/user/${blogName}/total_posts`);
   const data = await response.json();
   return data.total;
 };
 
 const getProfile = async blogName => {
-  const response = await fetch(`http://localhost:8888/user/${blogName}`);
+  const response = await fetch(`/user/${blogName}`);
   const data = await response.json();
   loadProfile(data);
 };
@@ -42,7 +42,7 @@ const getImages = async (blogName, offset) => {
     if (!offset) {
       offset = 0;
     }
-    const response = await fetch(`http://localhost:8888/${blogName}/photos/20/offset=${offset}`);
+    const response = await fetch(`/${blogName}/photos/20/offset=${offset}`);
     const data = await response.json();
     loadImages(data);
   } catch (err) {
