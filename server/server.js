@@ -1,12 +1,12 @@
-'use strict';
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const tumblr = require('tumblr.js');
 const app = express();
-const port = process.argv[2] || 3000;
+const port = process.env.PORT || 3000;
 const client = tumblr.createClient({
   credentials: {
     consumer_key: process.env.CONSUMER_KEY,
@@ -17,7 +17,7 @@ const client = tumblr.createClient({
   returnPromises: true,
 });
 
-// app.use(express.static('../client/build'));
+app.use(express.static(path.resolve(__dirname, '../client/dist')));
 app.use(cors());
 
 const getUserInfo = blogName => {
@@ -67,7 +67,6 @@ const getTotalPosts = blogName => {
 
 app.get('/:blog/photos/:number/offset=:offset', async (req, res) => {
   const data = await getImageUrls(req.params.blog, +req.params.number, +req.params.offset);
-  res.cookie('user', 'guest', { sameSite: 'none', secure: true });
   res.status(200).json({ images: data });
 });
 app.get('/user/:username', async (req, res) => {
