@@ -142,15 +142,16 @@ const main = () => {
     if (!input) {
       e.preventDefault();
     } else {
+      let lowerInput = input.toLowerCase();
       e.preventDefault();
       inputElement.blur();
       let element = document.querySelector('.image-list');
       while (element.firstChild) {
         element.removeChild(element.firstChild);
       }
-      getProfile(input);
+      getProfile(lowerInput);
       // getImages(input);
-      getTotalPosts(input).then(data => (totalPosts = data));
+      getTotalPosts(lowerInput).then(data => (totalPosts = data));
       window.onscroll = function () {
         // If scroll direction is up, return
         if (scrollLock || this.oldScroll > this.scrollY) {
@@ -163,7 +164,7 @@ const main = () => {
           if (postElement.length === totalPosts) {
             return;
           } else {
-            getImages(input, postElement.length);
+            getImages(lowerInput, postElement.length);
           }
         }
       };
