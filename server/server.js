@@ -19,6 +19,11 @@ const client = tumblr.createClient({
 
 app.use(express.static(path.resolve(__dirname, '../client/dist')));
 app.use(cors());
+const errorHandler = (err, req, res, next) => {
+  console.log(`Error: ${err.message}`);
+  const status = err.status || 404;
+  res.status(status).json({ message: err.message });
+};
 
 const getUserInfo = blogName => {
   const info = [];
@@ -30,7 +35,7 @@ const getUserInfo = blogName => {
       return info;
     })
     .catch(err => {
-      console.error(err.message);
+      throw new Error(err.message);
     });
   return response;
 };
@@ -53,7 +58,7 @@ const getImageUrls = (blogName, postNumber, offsetNumber) => {
       return imageUrls;
     })
     .catch(err => {
-      console.error(err.message);
+      throw new Error(err.message);
     });
   return response;
 };
@@ -65,36 +70,40 @@ const getTotalPosts = blogName => {
       return total;
     })
     .catch(err => {
-      console.error(err.message);
+      throw new Error(err.message);
     });
   return response;
 };
 
-app.get('/user/:username', async (req, res) => {
-  const data = await getUserInfo(req.params.username);
-  if (!data) {
-    return res.status(404).json({ message: 'Not Found' });
+app.get('/user/:username', async (req, res, next) => {
+  try {
+    const data = await getUserInfo(req.params.username);
+    res.status(200).json({ info: data });
+  } catch (err) {
+    next(err);
   }
-  res.status(200).json({ info: data });
 });
-app.get('/:blog/photos/:number/offset=:offset', async (req, res) => {
-  const data = await getImageUrls(req.params.blog, +req.params.number, +req.params.offset);
-  if (!data) {
-    return res.status(404).json({ message: 'Not Found' });
+app.get('/:user/photos/:number/offset=:offset', async (req, res, next) => {
+  try {
+    const data = await getImageUrls(req.params.user, +req.params.number, +req.params.offset);
+    res.status(200).json({ images: data });
+  } catch (err) {
+    next(err);
   }
-  res.status(200).json({ images: data });
 });
-app.get('/user/:username/total_posts', async (req, res) => {
-  const data = await getTotalPosts(req.params.username);
-  if (!data) {
-    return res.status(404).json({ message: 'Not Found' });
+app.get('/user/:username/total_posts', async (req, res, next) => {
+  try {
+    const data = await getTotalPosts(req.params.username);
+    res.status(200).json({ total: data });
+  } catch (err) {
+    next(err);
   }
-  res.status(200).json({ total: data });
 });
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
 });
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`The server is listening at http://localhost:${port}`);
