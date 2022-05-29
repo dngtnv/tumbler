@@ -14,7 +14,7 @@ lightboxContainer.addEventListener('click', () => {
 });
 
 const getTotalPosts = async blogName => {
-  const response = await fetch(`http://localhost:8888/user/${blogName}/total_posts`);
+  const response = await fetch(`/user/${blogName}/total_posts`);
   const data = await response.json();
   return data.total;
 };
@@ -22,7 +22,7 @@ const getTotalPosts = async blogName => {
 const getProfile = async blogName => {
   let profile;
   try {
-    const response = await fetch(`http://localhost:8888/user/${blogName}`);
+    const response = await fetch(`/user/${blogName}`);
     const data = await response.json();
     profile = { avatar: data.info[0].avatar, username: data.info[0].username, description: data.info[0].description };
     loadProfile(profile);
@@ -48,7 +48,7 @@ const getImages = async (blogName, offset) => {
     if (!offset) {
       offset = 0;
     }
-    const response = await fetch(`http://localhost:8888/${blogName}/photos/20/offset=${offset}`);
+    const response = await fetch(`/${blogName}/photos/20/offset=${offset}`);
     const data = await response.json();
     loadImages(data);
   } catch (err) {
@@ -132,7 +132,7 @@ const displayLoading = () => {
   }, 1800);
 };
 
-const main = () => {
+const init = () => {
   let totalPosts;
   const inputElement = document.querySelector('#search-input');
   inputElement.addEventListener('change', e => {
@@ -148,7 +148,6 @@ const main = () => {
         element.removeChild(element.firstChild);
       }
       getProfile(lowerInput);
-      // getImages(input);
       getTotalPosts(lowerInput).then(data => (totalPosts = data));
       window.onscroll = function () {
         // If scroll direction is up, return
@@ -169,4 +168,4 @@ const main = () => {
     }
   });
 };
-main();
+init();

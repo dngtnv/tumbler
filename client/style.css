@@ -21,13 +21,12 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 54px;
   padding: 0 20px;
   width: 100%;
   border-bottom: 1px solid rgb(255, 255, 255, 0.13);
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 5;
+  z-index: 99;
   background-color: hsl(212, 100%, 10%);
 }
 header .logo {
@@ -36,6 +35,7 @@ header .logo {
   font-size: 25px;
   color: rgb(255, 255, 255);
   cursor: pointer;
+  margin: 10px 10px;
 }
 .search-wrapper {
   background-color: rgb(255, 255, 255, 0.25);
@@ -56,7 +56,7 @@ header .logo {
 }
 .container {
   max-width: 80%;
-  margin: 90px auto;
+  margin: 100px auto;
 }
 .container .image-list {
   /* display: grid;
@@ -164,6 +164,8 @@ header .logo {
   transition: var(--transition);
   position: absolute;
   border: none;
+  top: 0;
+  bottom: 0;
 }
 
 .lightbox-btn svg {
@@ -184,10 +186,10 @@ header .logo {
   pointer-events: none;
 }
 .left {
-  left: 5px;
+  left: 0;
 }
 .right {
-  right: 5px;
+  right: 0;
 }
 /*****************************/
 .loader {
@@ -231,11 +233,11 @@ header .logo {
 }
 @media (max-width: 768px) {
   header {
+    padding: 15px 0;
     flex-direction: column;
-    height: 100px;
     justify-content: center;
   }
   .container {
-    margin: 80px auto;
+    margin: 150px auto;
   }
 }
