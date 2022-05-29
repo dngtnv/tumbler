@@ -41,11 +41,12 @@ header .logo {
   background-color: rgb(255, 255, 255, 0.25);
   width: 300px;
   border-radius: 3px;
+  overflow: hidden;
 }
 .search-wrapper input {
   background: transparent;
   border: none;
-  color: rgb(255, 255, 255, 0.65);
+  color: rgb(0, 0, 0);
   font-family: inherit;
   font-size: 1rem;
   font-weight: 300;
@@ -53,6 +54,15 @@ header .logo {
   outline: none;
   padding: 5px;
   width: 100%;
+}
+.search-wrapper input:focus {
+  background-color: hsl(0, 0%, 100%);
+}
+.search-wrapper input::placeholder {
+  color: rgb(255, 255, 255, 0.65);
+}
+.search-wrapper input:focus::placeholder {
+  color: rgba(85, 85, 85, 0.65);
 }
 .container {
   max-width: 80%;
@@ -166,6 +176,7 @@ header .logo {
   border: none;
   top: 0;
   bottom: 0;
+  outline: none;
 }
 
 .lightbox-btn svg {

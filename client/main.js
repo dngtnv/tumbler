@@ -140,8 +140,8 @@ const init = () => {
     if (!input) {
       e.preventDefault();
     } else {
-      let lowerInput = input.toLowerCase();
       e.preventDefault();
+      let lowerInput = input.toLowerCase();
       inputElement.blur();
       let element = document.querySelector('.image-list');
       while (element.firstChild) {
