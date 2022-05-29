@@ -1,3 +1,4 @@
+const inputElement = document.querySelector('#search-input');
 const lightboxContainer = document.querySelector('.lightbox-container');
 const lightboxImage = document.querySelector('.lightbox-img');
 const lightboxBtns = document.querySelectorAll('.lightbox-btn');
@@ -133,15 +134,12 @@ const displayLoading = () => {
 };
 
 const init = () => {
+  let searchValue;
   let totalPosts;
-  const inputElement = document.querySelector('#search-input');
-  inputElement.addEventListener('change', e => {
-    let input = e.target.value;
-    if (!input) {
-      e.preventDefault();
-    } else {
-      e.preventDefault();
-      let lowerInput = input.toLowerCase();
+  inputElement.addEventListener('keydown', e => {
+    if (e.keyCode === 13) {
+      searchValue = inputElement.value;
+      let lowerInput = searchValue.toLowerCase();
       inputElement.blur();
       let element = document.querySelector('.image-list');
       while (element.firstChild) {
@@ -150,12 +148,8 @@ const init = () => {
       getProfile(lowerInput);
       getTotalPosts(lowerInput).then(data => (totalPosts = data));
       window.onscroll = function () {
-        // If scroll direction is up, return
-        if (scrollLock || this.oldScroll > this.scrollY) {
-          this.oldScroll = this.scrollY;
-          return;
-        }
-        if (this.innerHeight + this.pageYOffset >= (document.body.scrollHeight / 4) * 3) {
+        if (scrollLock) return;
+        if (this.innerHeight + this.pageYOffset >= (document.body.scrollHeight / 4) * 3 && element.hasChildNodes()) {
           scrollLock = true;
           let postElement = document.querySelectorAll('.image-item');
           if (postElement.length === totalPosts) {
