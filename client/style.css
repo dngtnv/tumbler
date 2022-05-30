@@ -264,4 +264,7 @@ header .logo {
     margin: 150px auto;
     max-width: 100%;
   }
+  .image-item {
+    width: 30em;
+  }
 }
