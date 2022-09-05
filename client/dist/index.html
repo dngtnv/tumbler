@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.17e50649.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet" />
+    
+    <title>Tumbler</title>
+    
+    <script type="module" crossorigin src="/assets/index.e6024d12.js"></script>
+    <link rel="stylesheet" href="/assets/index.f2765d5c.css">
+  </head>
+  <body>
+    <header>
+      <a href="/" class="logo"><h2>Tumbler</h2></a>
+      <div class="search-wrapper">
+        <input id="search-input" name="username" type="search" placeholder="Search username" />
+      </div>
+    </header>
+    <main class="container">
+      <div class="user-info">
+        <div class="avatar-wrapper">
+          <img
+            id="avatar"
+            src="https://64.media.tumblr.com/ac46b069c7bb24e2ee5bf368a32b84fe/5c65a2189e2d73b7-9d/s540x810/384c42854b3fca915f79ffcb8dc711665b7c3519.jpg"
+            alt="moon face"
+          />
+        </div>
+        <div class="blog-text">
+          <h1 id="name">@username</h1>
+          <p id="description">@description</p>
+        </div>
+      </div>
+      <div class="image-list"></div>
+      <div class="lightbox-container">
+        <div class="lightbox-image-wrapper">
+          <button class="lightbox-btn left" id="left">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#ffffff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <img class="lightbox-img" alt="girl" />
+          <button class="lightbox-btn right" id="right">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#ffffff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="loader">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </main>
+  </body>
+</html>
