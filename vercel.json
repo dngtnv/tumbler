@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "name": "Tumbler",
+  "builds": [{ "src": "server/server.js", "use": "@vercel/node" }],
+  "routes": [{ "src": "/(.*)", "dest": "/index.js" }]
+}
