@@ -10,7 +10,7 @@
     "build": "cd client && npm install && npm run build"
   },
   "engines": {
-    "node": "16.15.0"
+    "node": "16.x"
   },
   "keywords": [],
   "author": "dngtnv",
